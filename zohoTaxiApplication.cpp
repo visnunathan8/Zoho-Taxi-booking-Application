@@ -6,6 +6,7 @@ int taxiride[4]={0};
 class taxi{
 	int taxi_earning;
 	int isfree;
+	int earnings;
 public:
 	taxi(){
 		isfree=1;
@@ -19,6 +20,12 @@ public:
 	}
 	void deallocate(){
 		isfree=1;
+	}
+	void assign(int amount){
+		this->earnings += amount;
+	}
+	int AmountEarned(){
+			return earnings;
 	}
 }car[4];
 class customer{
@@ -48,7 +55,8 @@ class customer{
 			cout<<"Taxi allocated to you is : "<<ta<<"\n";
 		}
 		void print(){
-			cout<<cust_id<<"\t"<<cust_statpoint<<"\t"<<cust_endpoint<<"\t"<<cust_stattime;
+			cout<<cust_id<<"\t"<<cust_statpoint<<"\t"<<cust_endpoint<<"\t"<<cust_stattime<<"\t";
+
 		}
 		int time(){
 			return travel_time;
@@ -59,11 +67,24 @@ class customer{
 		void changegre(int t){
 				this->travel_time = this->travel_time-t;
 		}
+		int CalculateTaxiRent(){
+				int t;
+				int len=km;
+				if(km<=5){
+					t=100;
+				}else{
+					t=100;
+					len = len-5;
+					t+=len*10;
+				}
+				//cout<<t;
+				return t;
+		}
 
 }cus[4][10];
 int main() {
 		clrscr();
-		int t;
+		int t,amt;
 		cout<<"\t\t\tCall Taxi Booking\n\n";
 		while(t!=3){
 			cout<<"1.Booking\n2.Details\n3.Exit\n";
@@ -74,6 +95,8 @@ int main() {
 								cus[0][numberofcustomer[0]].input();
 							//	cout<<"###"<<cus[0][numberofcustomer[0]].time()<<"\n";
 								cus[0][numberofcustomer[0]].display(1);
+								amt = cus[0][numberofcustomer[0]].CalculateTaxiRent();
+								car[0].assign(amt);
 								taxiride[0]=1;
 								car[0].allocate();
 								for(int i=0;i<4;i++){
@@ -87,7 +110,7 @@ int main() {
 											}else if(cus[i][numberofcustomer[i]-1].time()>cus[0][numberofcustomer[0]].time()){
 													cus[i][numberofcustomer[i]-1].changegre(cus[0][numberofcustomer[0]].time());
 											}
-										cout<<"!!!!!"<<cus[i][numberofcustomer[i]].time()<<"!!!!!"<<cus[0][numberofcustomer[0]-1].time()<<"\n";		
+									//	cout<<"!!!!!"<<cus[i][numberofcustomer[i]].time()<<"!!!!!"<<cus[0][numberofcustomer[0]-1].time()<<"\n";		
 								}
 								numberofcustomer[0]++;
 						}else if(car[1].free()){
@@ -95,6 +118,8 @@ int main() {
 								cus[1][numberofcustomer[1]].input();
 								//cout<<"####"<<cus[0][numberofcustomer[0]-1].time()<<"\n";
 								cus[1][numberofcustomer[1]].display(2);
+								amt = cus[1][numberofcustomer[1]].CalculateTaxiRent();
+								car[1].assign(amt);
 								taxiride[1]=1;
 								car[1].allocate();
 								//cout<<"@@@@@"<<cus[1][numberofcustomer[1]].time()<<"@@@@@"<<cus[0][numberofcustomer[0]-1].time()<<"\n";
@@ -110,15 +135,17 @@ int main() {
 											}else if(cus[i][numberofcustomer[i]-1].time()>cus[1][numberofcustomer[1]].time()){
 													cus[i][numberofcustomer[i]-1].changegre(cus[1][numberofcustomer[1]].time());
 											}
-								
-								cout<<"!!!!!"<<cus[i][numberofcustomer[i]].time()<<"!!!!!"<<cus[1][numberofcustomer[1]-1].time()<<"\n";
+
+							//	cout<<"!!!!!"<<cus[i][numberofcustomer[i]].time()<<"!!!!!"<<cus[1][numberofcustomer[1]-1].time()<<"\n";
 }
 								numberofcustomer[1]++;
 
 						}else if(car[2].free()){
-							
+
 								cus[2][numberofcustomer[2]].input();
 								cus[2][numberofcustomer[2]].display(3);
+								amt = cus[2][numberofcustomer[2]].CalculateTaxiRent();
+								car[2].assign(amt);
 								taxiride[2]=1;
 								car[2].allocate();
 								for(int i=0;i<4;i++){
@@ -132,13 +159,15 @@ int main() {
 											}else if(cus[i][numberofcustomer[i]-1].time()>cus[2][numberofcustomer[2]].time()){
 													cus[i][numberofcustomer[i]-1].changegre(cus[2][numberofcustomer[2]].time());
 											}
-												cout<<"!!!!!"<<cus[i][numberofcustomer[i]].time()<<"!!!!!"<<cus[2][numberofcustomer[2]-1].time()<<"\n";
+											//	cout<<"!!!!!"<<cus[i][numberofcustomer[i]].time()<<"!!!!!"<<cus[2][numberofcustomer[2]-1].time()<<"\n";
 								}
 								numberofcustomer[2]++;
 						}else if(car[3].free()){
 
 								cus[3][numberofcustomer[3]].input();
 								cus[3][numberofcustomer[3]].display(4);
+								amt = cus[3][numberofcustomer[3]].CalculateTaxiRent();
+								car[3].assign(amt);
 								taxiride[3]=1;
 								car[3].allocate();
 								for(int i=0;i<4;i++){
@@ -152,7 +181,7 @@ int main() {
 											}else if(cus[i][numberofcustomer[i]-1].time()>cus[3][numberofcustomer[3]].time()){
 													cus[i][numberofcustomer[i]-1].changegre(cus[3][numberofcustomer[3]].time());
 											}
-												cout<<"!!!!!"<<cus[i][numberofcustomer[i]].time()<<"!!!!!"<<cus[3][numberofcustomer[3]-1].time()<<"\n";
+												//cout<<"!!!!!"<<cus[i][numberofcustomer[i]].time()<<"!!!!!"<<cus[3][numberofcustomer[3]-1].time()<<"\n";
 								}
 								numberofcustomer[3]++;
 						}else{
@@ -161,10 +190,12 @@ int main() {
 
 						break;
 				case 2:
+						//int amt;
 						cout<<"Customer_Id  Starting_point  Ending_point  Pickup_time\n";
 						for(int i=0;i<4;i++){
 							if(taxiride[i]==1){
-									cout<<"Taxi : "<<i+1<<"\n";
+									//amt = car[i].AmountEarned();
+									cout<<"Taxi : "<<i+1<<"\t\t"<<"Amount Earned :"<<car[i].AmountEarned()<<"\n";
 									for(int j=0;j<numberofcustomer[i];j++)
 									{
 											cus[i][j].print();
